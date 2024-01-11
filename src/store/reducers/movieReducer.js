@@ -1,5 +1,10 @@
 import { movies } from "../../movies";
-import { NEXT, PREV, RESTORE_MOVIE } from "../actions/movieActions";
+import {
+  NEXT,
+  PREV,
+  REMOVE_MOVIE,
+  RESTORE_MOVIE,
+} from "../actions/movieActions";
 
 const initialState = {
   movies: movies,
@@ -36,6 +41,21 @@ function movieReducer(state = initialState, action) {
           disabledNav: "NONE",
         };
       }
+
+    case REMOVE_MOVIE:
+      return {
+        ...state,
+        movies: state.movies.filter((movie) => movie.id !== action.payload.id),
+        sira: state.sira === 0 ? 0 : state.sira - 1,
+      };
+
+    case RESTORE_MOVIE:
+      return {
+        ...state,
+        movies: [...state.movies, action.payload],
+        sira: state.sira === 0 ? 0 : state.sira - 1,
+      };
+
     default:
       return state;
   }

@@ -3,7 +3,7 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import Movie from "./components/Movie";
 import FavMovie from "./components/FavMovie";
 import { useDispatch, useSelector } from "react-redux";
-import { next, prev } from "./store/actions/movieActions";
+import { next, prev, removeMovie } from "./store/actions/movieActions";
 import { addFavorite } from "./store/actions/favoriteActions";
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
   }
   function addList() {
     dispatch(addFavorite(movies[sira]));
+    dispatch(removeMovie(movies[sira]));
   }
 
   return (
