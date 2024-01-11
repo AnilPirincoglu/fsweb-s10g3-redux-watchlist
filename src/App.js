@@ -4,9 +4,12 @@ import Movie from "./components/Movie";
 import FavMovie from "./components/FavMovie";
 import { useDispatch, useSelector } from "react-redux";
 import { next, prev } from "./store/actions/movieActions";
+import { addFavorite } from "./store/actions/favoriteActions";
 
 function App() {
-  const { sira, disabledNav } = useSelector((state) => state.movieReducer);
+  const { sira, disabledNav, movies } = useSelector(
+    (state) => state.movieReducer
+  );
   const dispatch = useDispatch();
   //const [sira, setSira] = useState(0);
   const favMovies = useSelector((state) => state.favoriteReducer.favorites);
@@ -17,6 +20,9 @@ function App() {
   }
   function oncekiFilm() {
     dispatch(prev());
+  }
+  function addList() {
+    dispatch(addFavorite(movies[sira]));
   }
 
   return (
@@ -58,7 +64,10 @@ function App() {
             >
               Sıradaki
             </button>
-            <button className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white ">
+            <button
+              onClick={addList}
+              className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white "
+            >
               Listeme ekle
             </button>
           </div>
@@ -67,7 +76,7 @@ function App() {
         <Route path="/listem">
           <div>
             {favMovies.map((movie) => (
-              <FavMovie key={movie.id} title={movie.title} id={movie.id} />
+              <FavMovie key={movie.id} movie={movie} />
             ))}
           </div>
         </Route>
